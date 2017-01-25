@@ -14,11 +14,37 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-import webapp2
+import webapp2, caesar
+
+init_page = """
+<!DOCTYPE html>
+<html>
+<head><title>Web Caesar!</title>
+</head>
+"""
+
+body_page = """
+<body>
+<form method="POST" action="/">
+    <label>Enter some text to encrypt
+        <textarea id="input">%(encrypted)s</textarea>
+    </label>
+    <br />
+    <label>Enter number of letters to rotate
+        <input type="text" value="%(number)s" />
+    </label>
+    <br />
+    <label>Click 'Submit' to go ahead and encrypt!
+        <input type="submit" />
+    </label>
+</form>
+</body>
+</html>
+"""
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        self.response.write('Hello world!')
+        self.response.write("<textarea>" + caesar.encrypt("Hello, world!", 2) + "</textarea>")
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler)
