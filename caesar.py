@@ -18,6 +18,14 @@ def encrypt(text, rot):
     for char in text:
         if char.isalpha():
             return_str += rotate_character(char, rot)
+        elif char == ">":
+            return_str += "&gt;"
+        elif char == "<":
+            return_str += "&lt;"
+        elif char == '"':
+            return_str += "&quot;"
+        elif char == "&":
+            return_str += "&amp;"
         else:
             return_str += char
     return return_str

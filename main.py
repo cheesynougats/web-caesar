@@ -19,7 +19,9 @@ import webapp2, caesar
 init_page = """
 <!DOCTYPE html>
 <html>
-<head><title>Web Caesar!</title>
+<head>
+<meta charset="utf-8" />
+<title>Web Caesar!</title>
 </head>
 """
 
@@ -27,15 +29,19 @@ body_page = """
 <body>
 <form method="POST" action="/">
     <label>Enter some text to encrypt
-        <textarea id="input">%(encrypted)s</textarea>
+        <textarea name="text" style="height: 100px; width: 400px">
+        %s</textarea>
     </label>
     <br />
     <label>Enter number of letters to rotate
-        <input type="text" value="%(number)s" />
+        <input name="rotate" type="text" value="%s" />
     </label>
     <br />
     <label>Click 'Submit' to go ahead and encrypt!
         <input type="submit" />
+    </label>
+    <br /><br />
+    <label>%s
     </label>
 </form>
 </body>
@@ -44,7 +50,19 @@ body_page = """
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        self.response.write("<textarea>" + caesar.encrypt("Hello, world!", 2) + "</textarea>")
+        self.response.write(init_page + body_page % ("", "", ""))
+
+
+    def post(self):
+        error_text = "Please enter an integer for rotation!"
+        if self.request.get('rotate').isdigit():
+            rotate_num = int(self.request.get('rotate'))
+            new_text = caesar.encrypt(self.request.get('text'), rotate_num)
+            self.response.write(init_page + body_page % (new_text, rotate_num, ""))
+        else:
+            self.response.write(init_page + body_page % (self.request.get('text'), '0', error_text))
+
+
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler)
