@@ -29,8 +29,7 @@ body_page = """
 <body>
 <form method="POST" action="/">
     <label>Enter some text to encrypt
-        <textarea name="text" style="height: 100px; width: 400px">
-        %s</textarea>
+        <textarea name="text" style="height: 100px; width: 400px">%s</textarea>
     </label>
     <br />
     <label>Enter number of letters to rotate
